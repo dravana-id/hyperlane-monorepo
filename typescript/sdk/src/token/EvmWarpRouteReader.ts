@@ -147,6 +147,8 @@ export class EvmWarpRouteReader extends EvmRouterReader {
       [TokenType.nativeOpL2]: this.deriveOpL2TokenConfig.bind(this),
       [TokenType.nativeOpL1]: this.deriveOpL1TokenConfig.bind(this),
       [TokenType.synthetic]: this.deriveHypSyntheticTokenConfig.bind(this),
+      [TokenType.dravanaSynthetic]:
+        this.deriveHypSyntheticTokenConfig.bind(this),
       [TokenType.unknown]: null,
       [TokenType.syntheticRebase]:
         this.deriveHypSyntheticRebaseConfig.bind(this),

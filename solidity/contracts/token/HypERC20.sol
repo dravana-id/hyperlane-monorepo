@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.8.0;
 
-import {TokenRouter} from "./libs/TokenRouter.sol";
 import {Quote} from "../interfaces/ITokenBridge.sol";
 import {TokenRouter} from "./libs/TokenRouter.sol";
 
@@ -37,7 +36,7 @@ contract HypERC20 is ERC20Upgradeable, TokenRouter {
         address _hook,
         address _interchainSecurityModule,
         address _owner
-    ) public initializer {
+    ) public virtual initializer {
         // Initialize ERC20 metadata
         __ERC20_init(_name, _symbol);
         _mint(msg.sender, _totalSupply);

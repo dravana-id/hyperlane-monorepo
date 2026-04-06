@@ -254,12 +254,28 @@ export const isCollateralRebaseTokenConfig = isCompliant(
 );
 
 export const SyntheticTokenConfigSchema = TokenMetadataSchema.partial().extend({
-  type: z.enum([TokenType.synthetic, TokenType.syntheticUri]),
+  type: z.enum([
+    TokenType.synthetic,
+    TokenType.syntheticUri,
+    TokenType.dravanaSynthetic,
+  ]),
   initialSupply: z.string().or(z.number()).optional(),
   metadataUri: z.string().url().optional(),
 });
 export type SyntheticTokenConfig = z.infer<typeof SyntheticTokenConfigSchema>;
 export const isSyntheticTokenConfig = isCompliant(SyntheticTokenConfigSchema);
+
+export const DravanaSyntheticTokenConfigSchema =
+  TokenMetadataSchema.partial().extend({
+    type: z.literal(TokenType.dravanaSynthetic),
+    initialSupply: z.string().or(z.number()).optional(),
+  });
+export type DravanaSyntheticTokenConfig = z.infer<
+  typeof DravanaSyntheticTokenConfigSchema
+>;
+export const isDravanaSyntheticTokenConfig = isCompliant(
+  DravanaSyntheticTokenConfigSchema,
+);
 
 export const SyntheticRebaseTokenConfigSchema =
   TokenMetadataSchema.partial().extend({

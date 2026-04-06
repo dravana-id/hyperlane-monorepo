@@ -103,6 +103,83 @@ This monorepo uses [pnpm workspaces](https://pnpm.io/workspaces). Installing dep
 
 If you are using [VSCode](https://code.visualstudio.com/), you can launch the [multi-root workspace](https://code.visualstudio.com/docs/editor/multi-root-workspaces) with `code mono.code-workspace`, install the recommended workspace extensions, and use the editor settings.
 
+### Build and run the Hyperlane CLI (from this repo)
+
+Use this when you want the **local fork** (including Dravana-specific warp types) instead of the published `@hyperlane-xyz/cli` on npm.
+
+1. **Install prerequisites** (see [Prerequisites](#prerequisites) above): Node (see `.nvmrc`), `pnpm`, Foundry, `jq`, etc.
+2. **Install dependencies** from the repository root:
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Build the monorepo** (compiles Solidity/typechain for `@hyperlane-xyz/core`, then TS packages including the CLI):
+
+   ```bash
+   pnpm build
+   ```
+
+   **Windows note:** the `@hyperlane-xyz/core` package runs shell scripts (`sh`, `exportBuildArtifact.sh`, env-style `NODE_OPTIONS=...`) during its build. If `pnpm build` fails on native `cmd.exe`, use **Git Bash**, **WSL**, or Linux/macOS for a full build. Other packages may still build if you scope the build (for example `pnpm --filter @hyperlane-xyz/cli build`) after core artifacts exist.
+
+4. **Run the CLI** using the compiled `dist` entrypoint (from repo root):
+
+   ```bash
+   pnpm --filter @hyperlane-xyz/cli exec node dist/cli.js --help
+   ```
+
+   Or from the CLI package directory:
+
+   ```bash
+   cd typescript/cli
+   node dist/cli.js --help
+   ```
+
+   Useful checks:
+
+   ```bash
+   node dist/cli.js warp --help
+   node dist/cli.js registry addresses --chain <chainName>
+   ```
+
+   The CLI uses the [Hyperlane registry](https://github.com/hyperlane-xyz/registry) for chain metadata and warp artifacts. Point it at a registry with `--registry` / `HYPERLANE_REGISTRY` if you use a custom checkout or local paths (see `typescript/cli/README.md` and upstream docs).
+
+### Add a new token / warp route
+
+These commands use the **`hyperlane warp`** subcommands (current CLI structure). Example paths assume you run from `typescript/cli` with `node dist/cli.js`; prefix with `pnpm --filter @hyperlane-xyz/cli exec` if you prefer running from the repo root.
+
+1. **Create a warp route deployment config** (interactive wizard):
+
+   ```bash
+   node dist/cli.js warp init --out ./configs/warp-route-deployment.yaml
+   ```
+
+   - Select the chains, token **type** per chain (`collateral`, `synthetic`, `native`, etc.).
+   - **Dravana fork:** for **Option 2 delayed mint** (custom `DravanaHypERC20`), choose token type **`dravanaSynthetic`** when offered—this deploys the Dravana synthetic implementation instead of default `HypERC20`.
+   - If you omit `--out`, the wizard can add the deployment config to your registry (see wizard prompts).
+
+2. **Validate the YAML** before deploying:
+
+   ```bash
+   node dist/cli.js config validate warp --path ./configs/warp-route-deployment.yaml
+   ```
+
+3. **Ensure the deployment config is reachable as a warp route ID**  
+   `warp deploy` resolves config by **`--warp-route-id`** (registry). If you only have a file, register it or sync it into your registry layout so that ID matches what you pass to deploy (see example layouts under `typescript/cli/examples/` and `typescript/cli/test-configs/`).
+
+4. **Deploy the warp route contracts:**
+
+   ```bash
+   node dist/cli.js warp deploy --warp-route-id <YOUR_WARP_ROUTE_ID>
+   ```
+
+5. **Optional next steps**
+   - Update on-chain config: `node dist/cli.js warp apply --warp-route-id <YOUR_WARP_ROUTE_ID>`
+   - Verify: `node dist/cli.js warp verify --warp-route-id <YOUR_WARP_ROUTE_ID>`
+   - Test transfer: `node dist/cli.js warp send --warp-route-id <YOUR_WARP_ROUTE_ID> --amount <amount> ...`
+
+Reference YAML shapes: `typescript/cli/examples/warp-route-deployment.yaml`. Full CLI flag reference: `typescript/cli/README.md` and [Hyperlane docs](https://docs.hyperlane.xyz).
+
 ### Logging
 
 The typescript tooling uses [Pino](https://github.com/pinojs/pino) based logging, which outputs structured JSON logs by default.

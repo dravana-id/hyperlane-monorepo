@@ -1,5 +1,6 @@
 export const TokenType = {
   synthetic: 'synthetic',
+  dravanaSynthetic: 'dravanaSynthetic',
   syntheticRebase: 'syntheticRebase',
   syntheticUri: 'syntheticUri',
   collateral: 'collateral',
@@ -43,6 +44,7 @@ const isMovableCollateralTokenTypeMap = {
   [TokenType.nativeOpL2]: false,
   [TokenType.nativeScaled]: true,
   [TokenType.synthetic]: false,
+  [TokenType.dravanaSynthetic]: false,
   [TokenType.syntheticRebase]: false,
   [TokenType.syntheticUri]: false,
   [TokenType.ethEverclear]: false,
@@ -71,6 +73,7 @@ export const MAX_GAS_OVERHEAD = 68_000;
 export const gasOverhead = (tokenType: TokenType): number => {
   switch (tokenType) {
     case TokenType.synthetic:
+    case TokenType.dravanaSynthetic:
       return 64_000;
     case TokenType.native:
     case TokenType.nativeScaled:

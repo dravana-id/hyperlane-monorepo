@@ -76,6 +76,7 @@ import {
   isEverclearTokenBridgeConfig,
   isMovableCollateralTokenConfig,
   isCrossCollateralTokenConfig,
+  isDravanaSyntheticTokenConfig,
   isNativeTokenConfig,
   isOftTokenConfig,
   isOpL1TokenConfig,
@@ -280,6 +281,10 @@ abstract class TokenDeployer<
     } else if (isCctpTokenConfig(config)) {
       return [config.hook ?? constants.AddressZero, config.owner, config.urls];
     } else if (isSyntheticTokenConfig(config)) {
+      if (isDravanaSyntheticTokenConfig(config)) {
+        // Delayed-mint mode: do not mint initial supply during initialize.
+        return [0, config.name, config.symbol, ...defaultArgs];
+      }
       return [
         config.initialSupply ?? 0,
         config.name,

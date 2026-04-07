@@ -104,5 +104,9 @@
     "@ethersproject/abi": "*",
     "@ethersproject/providers": "*",
     "@types/sinon-chai": "*"
+  },
+  "dependencies": {
+    "hardhat-preprocessor": "catalog:",
+    "solc": "catalog:"
   }
 }

@@ -74,7 +74,7 @@ contract HypERC20 is ERC20Upgradeable, TokenRouter {
     function _transferTo(
         address _recipient,
         uint256 _amount
-    ) internal override {
+    ) internal virtual override {
         _mint(_recipient, _amount);
     }
 }

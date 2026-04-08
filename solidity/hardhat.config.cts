@@ -45,7 +45,13 @@ module.exports = {
     compilers: [
       {
         version: "0.8.22",
-        settings: {},
+        settings: {
+          optimizer: {
+            enabled: true,
+            // Must match rootHardhatConfig / foundry.toml — empty {} previously dropped optimizer settings.
+            runs: 200,
+          },
+        },
       },
     ],
   },

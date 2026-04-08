@@ -20,6 +20,7 @@
     "release": "pnpm build && pnpm changeset publish",
     "spellcheck": "typos --config .spellcheck/typos.toml",
     "spellcheck:diff": "bash .spellcheck/run-diff.sh",
+    "verify-dravana-wizard": "node ./scripts/verify-dravana-warp-wizard.mjs",
     "postinstall": "husky install"
   },
   "dependencies": {

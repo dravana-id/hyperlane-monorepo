@@ -95,6 +95,7 @@
     "storage": "./storage.sh",
     "bytecode": "./bytecode.sh",
     "interface": "./interface.sh",
+    "check-eip170": "node ./scripts/check-eip170-bytecode.mjs",
     "version:update": "sh ./bytecodeversion.sh",
     "version:changed": "pnpm version:update && git diff --exit-code contracts/PackageVersioned.sol",
     "version:exhaustive": "pnpm tsx ./test/exhaustiveversion.test.ts",

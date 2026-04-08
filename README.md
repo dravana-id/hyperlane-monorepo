@@ -147,7 +147,22 @@ Use this when you want the **local fork** (including Dravana-specific warp types
    node dist/cli.js warp --help
    node dist/cli.js registry addresses --chain <chainName>
    ```
-npx @hyperlane-xyz/cli --help
+
+   **Dravana fork — do not use the published npm CLI.** Commands like `npx @hyperlane-xyz/cli` or a global install resolve to **upstream Hyperlane** on npm and **will not** show `dravanaSynthetic` in `warp init`. Always run **`node dist/cli.js`** from this repo after building (see above).
+
+   **Verify the wizard contains Dravana** (checks built `typescript/sdk` + `typescript/cli/dist`, not external packages):
+
+   ```bash
+   node scripts/verify-dravana-warp-wizard.mjs
+   ```
+
+   If the script fails but sources are correct, rebuild without stale Turbo cache:
+
+   ```bash
+   pnpm exec turbo run build --filter=@hyperlane-xyz/sdk --force
+   pnpm exec turbo run build --filter=@hyperlane-xyz/cli --force
+   ```
+
    The CLI uses the [Hyperlane registry](https://github.com/hyperlane-xyz/registry) for chain metadata and warp artifacts. Point it at a registry with `--registry` / `HYPERLANE_REGISTRY` if you use a custom checkout or local paths (see `typescript/cli/README.md` and upstream docs).
 
 ### Add a new token / warp route

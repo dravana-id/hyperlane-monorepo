@@ -8,7 +8,9 @@ export const rootHardhatConfig = {
     settings: {
       optimizer: {
         enabled: true,
-        runs: 25_000,
+        // Low runs shrink deployed bytecode (EIP-170 24,576 byte cap). High runs (e.g. 25k)
+        // optimize runtime gas but HypERC20Collateral / DravanaHypERC20 often exceed the limit.
+        runs: 200,
       },
     },
   },

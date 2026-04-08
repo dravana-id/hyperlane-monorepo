@@ -21,6 +21,7 @@
     "spellcheck": "typos --config .spellcheck/typos.toml",
     "spellcheck:diff": "bash .spellcheck/run-diff.sh",
     "verify-dravana-wizard": "node ./scripts/verify-dravana-warp-wizard.mjs",
+    "dravana-consume-mint": "node ./scripts/dravana-consume-and-mint.mjs",
     "postinstall": "husky install"
   },
   "dependencies": {

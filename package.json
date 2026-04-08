@@ -22,6 +22,7 @@
     "spellcheck:diff": "bash .spellcheck/run-diff.sh",
     "verify-dravana-wizard": "node ./scripts/verify-dravana-warp-wizard.mjs",
     "dravana-consume-mint": "node ./scripts/dravana-consume-and-mint.mjs",
+    "dravana-set-pending-mint-ttl": "node ./scripts/dravana-set-pending-mint-ttl.mjs",
     "postinstall": "husky install"
   },
   "dependencies": {

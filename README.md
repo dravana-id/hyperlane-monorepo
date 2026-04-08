@@ -111,7 +111,13 @@ Use this when you want the **local fork** (including Dravana-specific warp types
 2. **Install dependencies** from the repository root:
 
    ```bash
-   pnpm install
+   pnpm install --ignore-scripts
+   curl -L https://foundry.paradigm.xyz | bash
+   source ~/.bashrc
+   foundryup
+   cd ~/hyperlane-monorepo/solidity
+   pnpm deps:soldeer
+   forge build
    ```
 
 3. **Build the monorepo** (compiles Solidity/typechain for `@hyperlane-xyz/core`, then TS packages including the CLI):
@@ -141,7 +147,7 @@ Use this when you want the **local fork** (including Dravana-specific warp types
    node dist/cli.js warp --help
    node dist/cli.js registry addresses --chain <chainName>
    ```
-
+npx @hyperlane-xyz/cli --help
    The CLI uses the [Hyperlane registry](https://github.com/hyperlane-xyz/registry) for chain metadata and warp artifacts. Point it at a registry with `--registry` / `HYPERLANE_REGISTRY` if you use a custom checkout or local paths (see `typescript/cli/README.md` and upstream docs).
 
 ### Add a new token / warp route

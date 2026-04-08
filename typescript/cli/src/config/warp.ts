@@ -78,6 +78,8 @@ const TYPE_DESCRIPTIONS: Record<DeployableTokenType, string> = {
     'A collateral token that bridges via LayerZero OFT',
   [TokenType.crossCollateral]:
     'A collateral token that can route to multiple routers across chains',
+  [TokenType.dravanaSynthetic]:
+    'Dravana delayed-mint synthetic (DravanaHypERC20): Hyperlane TokenMessage + consumeAndMint (Option 2)',
 };
 
 // Types that are only configurable via YAML, not the interactive prompt
@@ -92,7 +94,10 @@ const TYPE_CHOICES = Object.values(TokenType)
       type !== TokenType.unknown && !YAML_ONLY_TYPES.includes(type),
   )
   .map((type) => ({
-    name: type,
+    name:
+      type === TokenType.dravanaSynthetic
+        ? 'dravanaSynthetic (DravanaHypERC20 — delayed mint / Option 2)'
+        : type,
     value: type,
     description: TYPE_DESCRIPTIONS[type],
   }));
@@ -331,6 +336,7 @@ export async function createWarpRouteDeployConfig({
         break;
       case TokenType.native:
       case TokenType.synthetic:
+      case TokenType.dravanaSynthetic:
         result[chain] = {
           type,
           owner,
@@ -383,7 +389,7 @@ export async function createWarpRouteDeployConfig({
 }
 
 function restrictChoices(typeChoices: TokenType[]) {
-  return TYPE_CHOICES.filter((choice) => typeChoices.includes(choice.name));
+  return TYPE_CHOICES.filter((choice) => typeChoices.includes(choice.value));
 }
 
 // Note, this is different than the function above which reads a config

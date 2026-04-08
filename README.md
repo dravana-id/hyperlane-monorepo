@@ -111,7 +111,7 @@ Use this when you want the **local fork** (including Dravana-specific warp types
 2. **Install dependencies** from the repository root:
 
    ```bash
-   pnpm install --ignore-scripts
+   pnpm install --filter='!./typescript/ccip-server' --ignore-scripts
    curl -L https://foundry.paradigm.xyz | bash
    source ~/.bashrc
    foundryup
@@ -123,7 +123,7 @@ Use this when you want the **local fork** (including Dravana-specific warp types
 3. **Build the monorepo** (compiles Solidity/typechain for `@hyperlane-xyz/core`, then TS packages including the CLI):
 
    ```bash
-   pnpm build
+   pnpm --filter '!ccip-server' build
    ```
 
    **Windows note:** the `@hyperlane-xyz/core` package runs shell scripts (`sh`, `exportBuildArtifact.sh`, env-style `NODE_OPTIONS=...`) during its build. If `pnpm build` fails on native `cmd.exe`, use **Git Bash**, **WSL**, or Linux/macOS for a full build. Other packages may still build if you scope the build (for example `pnpm --filter @hyperlane-xyz/cli build`) after core artifacts exist.

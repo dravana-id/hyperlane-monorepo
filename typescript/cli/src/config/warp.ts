@@ -88,19 +88,48 @@ const YAML_ONLY_TYPES: TokenType[] = [
   TokenType.collateralCctp,
 ];
 
-const TYPE_CHOICES = Object.values(TokenType)
-  .filter(
+/**
+ * Build choices for `warp init` token type select.
+ * - Always includes `dravanaSynthetic` even if an older linked `@hyperlane-xyz/sdk` omits it from enum iteration.
+ * - Puts `synthetic` then `dravanaSynthetic` first so Dravana Option 2 is easy to spot (long lists + inquirer paging).
+ */
+function buildWizardTokenTypeChoices(): {
+  name: string;
+  value: DeployableTokenType;
+  description: string;
+}[] {
+  const fromEnum = Object.values(TokenType).filter(
     (type): type is DeployableTokenType =>
       type !== TokenType.unknown && !YAML_ONLY_TYPES.includes(type),
-  )
-  .map((type) => ({
+  );
+  const unique = new Set<DeployableTokenType>(fromEnum);
+  unique.add(TokenType.dravanaSynthetic);
+
+  const orderFirst: TokenType[] = [
+    TokenType.synthetic,
+    TokenType.dravanaSynthetic,
+  ];
+  const ordered: DeployableTokenType[] = [];
+  for (const t of orderFirst) {
+    if (unique.has(t as DeployableTokenType)) {
+      ordered.push(t as DeployableTokenType);
+      unique.delete(t as DeployableTokenType);
+    }
+  }
+  ordered.push(...[...unique].sort((a, b) => String(a).localeCompare(String(b))));
+
+  return ordered.map((type) => ({
     name:
       type === TokenType.dravanaSynthetic
-        ? 'dravanaSynthetic (DravanaHypERC20 — delayed mint / Option 2)'
-        : type,
+        ? 'dravanaSynthetic (DravanaHypERC20 - delayed mint / Option 2)'
+        : String(type),
     value: type,
-    description: TYPE_DESCRIPTIONS[type],
+    description:
+      TYPE_DESCRIPTIONS[type] ?? 'Warp route token type',
   }));
+}
+
+const TYPE_CHOICES = buildWizardTokenTypeChoices();
 
 export async function fillDefaults(
   context: CommandContext,

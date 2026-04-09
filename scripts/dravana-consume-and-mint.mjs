@@ -30,6 +30,7 @@ const EIP1967_IMPL_SLOT =
 const ABI = [
   'function consumeAndMint(bytes32 messageId) external',
   'function messages(bytes32) view returns (address recipient, uint256 amount, uint32 origin, bytes32 sender, uint256 expiry, bool consumed)',
+  'function pendingMintTtl() view returns (uint256)',
 ];
 
 function reqEnv(name, fallback) {
@@ -87,11 +88,65 @@ async function main() {
   }
 
   const reader = new ethers.Contract(warpProxy, ABI, provider);
+  let ttlBn;
+  try {
+    ttlBn = await reader.pendingMintTtl();
+  } catch {
+    ttlBn = null;
+  }
+  console.log('[info] pendingMintTtl (global):', ttlBn ? ttlBn.toString() : 'n/a');
+  if (ttlBn && ttlBn.isZero()) {
+    console.error(
+      '[err] pendingMintTtl is 0 on proxy — new messages expire in the same second. Owner: run scripts/dravana-set-pending-mint-ttl.mjs (or upgrade implementation with initialize fix).',
+    );
+  }
+
   const pending = await reader.messages(messageId);
+  const block = await provider.getBlock('latest');
+  const nowTs = block.timestamp;
+  const expTs = pending.expiry.toNumber();
+  const expired = nowTs > expTs;
+
   console.log('[info] messages(messageId) recipient:', pending.recipient);
   console.log('[info] amount:', pending.amount.toString());
   console.log('[info] consumed:', pending.consumed);
   console.log('[info] expiry (unix):', pending.expiry.toString());
+  console.log('[info] latest block timestamp:', nowTs);
+  console.log('[info] consume would revert expired?:', expired);
+
+  // #region agent log
+  fetch('http://127.0.0.1:7638/ingest/190db480-2e3d-4df9-80ca-a71965de4b6a', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Debug-Session-Id': '75765a',
+    },
+    body: JSON.stringify({
+      sessionId: '75765a',
+      hypothesisId: 'TTL',
+      location: 'dravana-consume-and-mint.mjs:pending-check',
+      message: 'consumeAndMint preflight',
+      data: {
+        pendingMintTtl: ttlBn ? ttlBn.toString() : null,
+        expiry: pending.expiry.toString(),
+        blockTimestamp: nowTs,
+        expired,
+      },
+      timestamp: Date.now(),
+    }),
+  }).catch(() => {});
+  // #endregion
+
+  if (
+    !dryRun &&
+    pending.recipient !== ethers.constants.AddressZero &&
+    expired
+  ) {
+    console.error(
+      '[err] This pending message is already expired (chain time > expiry). New bridge after owner sets pendingMintTtl, or use a fresh messageId.',
+    );
+    process.exit(1);
+  }
 
   if (dryRun) {
     console.log('[dry-run] Skipping consumeAndMint');

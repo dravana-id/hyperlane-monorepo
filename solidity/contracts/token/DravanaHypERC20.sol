@@ -5,6 +5,10 @@ import {HypERC20} from "./HypERC20.sol";
 import {TokenMessage} from "./libs/TokenMessage.sol";
 import {TypeCasts} from "../libs/TypeCasts.sol";
 
+interface IDravanaSmartWalletFactory {
+    function isDeployedAccount(address account) external view returns (bool);
+}
+
 /**
  * @title DravanaHypERC20
  * @notice Delayed-mint synthetic token for Hyperlane Warp Route (Option 2).
@@ -31,6 +35,12 @@ contract DravanaHypERC20 is HypERC20 {
     /// @notice Default TTL (seconds) from message arrival to mint consumption.
     uint256 public pendingMintTtl = 1 days;
 
+    /// @notice Dravana AA factory — unset disables recipient/caller allowlist checks.
+    IDravanaSmartWalletFactory public smartWalletFactory;
+
+    /// @notice Optional Hyperlane domain id -> EVM chain id (for SmartWallet outbound validation).
+    mapping(uint32 => uint256) public domainToChain;
+
     event MessageStored(
         bytes32 indexed messageId,
         uint32 indexed origin,
@@ -56,6 +66,8 @@ contract DravanaHypERC20 is HypERC20 {
     /**
      * @notice Keep initialize signature compatible with warp deploy, but disallow
      *         direct initial minting (Option 2 delayed-mint policy).
+     * @dev Proxy storage does not inherit `pendingMintTtl = 1 days` from the implementation
+     *      bytecode initializer — must set TTL here or `pendingMintTtl` stays 0 (instant expiry).
      */
     function initialize(
         uint256,
@@ -67,12 +79,24 @@ contract DravanaHypERC20 is HypERC20 {
     ) public override initializer {
         __ERC20_init(_name, _symbol);
         _MailboxClient_initialize(_hook, _interchainSecurityModule, _owner);
+        pendingMintTtl = 1 days;
     }
 
     function setPendingMintTtl(uint256 _ttl) external onlyOwner {
         require(_ttl > 0, "ttl=0");
         pendingMintTtl = _ttl;
         emit PendingMintTtlSet(_ttl);
+    }
+
+    function setSmartWalletFactory(address _factory) external onlyOwner {
+        require(_factory != address(0), "FACTORY_ZERO");
+        smartWalletFactory = IDravanaSmartWalletFactory(_factory);
+    }
+
+    /// @notice Map Hyperlane destination domain to EVM chain id (optional SmartWallet domain checks).
+    function setDomain(uint32 domain, uint256 evmChainId) external onlyOwner {
+        require(evmChainId != 0, "CHAIN_ZERO");
+        domainToChain[domain] = evmChainId;
     }
 
     /**
@@ -90,6 +114,9 @@ contract DravanaHypERC20 is HypERC20 {
 
         PendingMessage storage pending = messages[messageId];
         require(pending.recipient == address(0), "message exists");
+
+        require(address(smartWalletFactory) != address(0), "FACTORY_UNSET");
+        require(smartWalletFactory.isDeployedAccount(recipient), "RECIPIENT_NOT_SW");
 
         uint256 expiry = block.timestamp + pendingMintTtl;
         messages[messageId] = PendingMessage({
@@ -112,10 +139,23 @@ contract DravanaHypERC20 is HypERC20 {
         require(block.timestamp <= pending.expiry, "expired");
         require(msg.sender == pending.recipient, "invalid recipient");
         require(pending.amount > 0, "amount=0");
+        require(address(smartWalletFactory) != address(0), "FACTORY_UNSET");
+        require(smartWalletFactory.isDeployedAccount(msg.sender), "ONLY_SMART_WALLET");
 
         pending.consumed = true;
         _mint(msg.sender, pending.amount);
         emit MessageConsumed(messageId, msg.sender, pending.amount);
+    }
+
+    /// @notice Whether `caller` may consume `messageId` (view helper for frontends / policy).
+    function isMessageConsumable(bytes32 messageId, address caller) external view returns (bool) {
+        PendingMessage storage pending = messages[messageId];
+        if (address(smartWalletFactory) == address(0)) return false;
+        if (pending.recipient == address(0) || pending.consumed) return false;
+        if (block.timestamp > pending.expiry) return false;
+        if (caller != pending.recipient) return false;
+        if (!smartWalletFactory.isDeployedAccount(caller)) return false;
+        return true;
     }
 
     /**

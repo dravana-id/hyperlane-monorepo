@@ -79,7 +79,7 @@ const TYPE_DESCRIPTIONS: Record<DeployableTokenType, string> = {
   [TokenType.crossCollateral]:
     'A collateral token that can route to multiple routers across chains',
   [TokenType.dravanaSynthetic]:
-    'Dravana delayed-mint synthetic (DravanaHypERC20): Hyperlane TokenMessage + consumeAndMint (Option 2)',
+    'Dravana synthetic (DravanaHypERC20): Hyperlane TokenMessage + consumeAndMint',
 };
 
 // Types that are only configurable via YAML, not the interactive prompt
@@ -91,7 +91,7 @@ const YAML_ONLY_TYPES: TokenType[] = [
 /**
  * Build choices for `warp init` token type select.
  * - Always includes `dravanaSynthetic` even if an older linked `@hyperlane-xyz/sdk` omits it from enum iteration.
- * - Puts `synthetic` then `dravanaSynthetic` first so Dravana Option 2 is easy to spot (long lists + inquirer paging).
+ * - Puts `synthetic` then `dravanaSynthetic` first so DravanaHypERC20 is easy to spot (long lists + inquirer paging).
  */
 function buildWizardTokenTypeChoices(): {
   name: string;
@@ -121,7 +121,7 @@ function buildWizardTokenTypeChoices(): {
   return ordered.map((type) => ({
     name:
       type === TokenType.dravanaSynthetic
-        ? 'dravanaSynthetic (DravanaHypERC20 - delayed mint / Option 2)'
+        ? 'dravanaSynthetic (DravanaHypERC20)'
         : String(type),
     value: type,
     description:

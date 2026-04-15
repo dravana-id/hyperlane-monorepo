@@ -124,6 +124,8 @@ Use this when you want the **local fork** (including Dravana-specific warp types
 
    ```bash
    pnpm --filter '!ccip-server' build
+   export NODE_OPTIONS="--max-old-space-size=4096"
+   pnpm --filter @hyperlane-xyz/sdk --filter @hyperlane-xyz/relayer --filter @hyperlane-xyz/rebalancer --filter @hyperlane-xyz/http-registry-server --filter @hyperlane-xyz/cli build
    ```
 
    **Windows note:** the `@hyperlane-xyz/core` package runs shell scripts (`sh`, `exportBuildArtifact.sh`, env-style `NODE_OPTIONS=...`) during its build. If `pnpm build` fails on native `cmd.exe`, use **Git Bash**, **WSL**, or Linux/macOS for a full build. Other packages may still build if you scope the build (for example `pnpm --filter @hyperlane-xyz/cli build`) after core artifacts exist.
@@ -176,7 +178,7 @@ These commands use the **`hyperlane warp`** subcommands (current CLI structure).
    ```
 
    - Select the chains, token **type** per chain (`collateral`, `synthetic`, `native`, etc.).
-   - **Dravana fork:** for **Option 2 delayed mint** (custom `DravanaHypERC20`), choose token type **`dravanaSynthetic`** when offered—this deploys the Dravana synthetic implementation instead of default `HypERC20`.
+   - **Dravana fork:** for custom `DravanaHypERC20`, choose token type **`dravanaSynthetic`** when offered—this deploys the Dravana synthetic implementation instead of default `HypERC20`.
    - If you omit `--out`, the wizard can add the deployment config to your registry (see wizard prompts).
 
 2. **Validate the YAML** before deploying:

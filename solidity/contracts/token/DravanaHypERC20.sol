@@ -1,175 +1,156 @@
-// SPDX-License-Identifier: Apache-2.0
-pragma solidity >=0.8.0;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.24;
 
-import {HypERC20} from "./HypERC20.sol";
-import {TokenMessage} from "./libs/TokenMessage.sol";
-import {TypeCasts} from "../libs/TypeCasts.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+import "./libs/TypeCasts.sol";
+import "./token/libs/TokenMessage.sol";
 
 interface IDravanaSmartWalletFactory {
     function isDeployedAccount(address account) external view returns (bool);
+
+    function isAllowedInboundWarpRecipient(address account) external view returns (bool);
 }
 
 /**
  * @title DravanaHypERC20
- * @notice Delayed-mint synthetic token for Hyperlane Warp Route (Option 2).
- * @dev Keeps Router/Mailbox/ISM behavior and message format unchanged:
- *      `_handle(uint32,bytes32,bytes)` still receives TokenMessage payload.
- *      Instead of immediate mint in `_handle`, this contract stores pending messages
- *      and requires `consumeAndMint(messageId)` by intended recipient wallet.
+ * @notice Dev-local warp token aligned with Hyperlane fork `DravanaHypERC20` (HypERC20 base in monorepo):
+ *         - `handle` body is Hyperlane TokenMessage (recipient bytes32 + amount), NOT a custom ABI tuple.
+ *         - `messageId = keccak256(abi.encode(origin, sender, body))` matches fork / SDK encoding.
+ *         Option 2: store on handle, mint only via `consumeAndMint`.
+ * @dev Outbound: `transferRemote` burns from `msg.sender` (SmartWallet in production); no separate bridge adapter.
  */
-contract DravanaHypERC20 is HypERC20 {
+contract DravanaHypERC20 is ERC20, Ownable, ReentrancyGuard {
     using TypeCasts for bytes32;
     using TokenMessage for bytes;
 
     struct PendingMessage {
         address recipient;
         uint256 amount;
-        uint32 origin;
-        bytes32 sender;
+        uint32 originDomain;
+        bytes32 remoteSender;
         uint256 expiry;
         bool consumed;
     }
 
+    address public immutable mailbox;
+
     mapping(bytes32 => PendingMessage) public messages;
-
-    /// @notice Default TTL (seconds) from message arrival to mint consumption.
-    uint256 public pendingMintTtl = 1 days;
-
-    /// @notice Dravana AA factory — unset disables recipient/caller allowlist checks.
-    IDravanaSmartWalletFactory public smartWalletFactory;
-
-    /// @notice Optional Hyperlane domain id -> EVM chain id (for SmartWallet outbound validation).
     mapping(uint32 => uint256) public domainToChain;
 
+    /// @notice Mirrors fork default; mint must be consumed before this deadline after arrival.
+    uint256 public pendingMintTtl = 1 days;
+
+    IDravanaSmartWalletFactory public smartWalletFactory;
+
+    event SmartWalletFactorySet(address indexed factory);
+    event PendingMintTtlSet(uint256 ttl);
     event MessageStored(
         bytes32 indexed messageId,
-        uint32 indexed origin,
-        bytes32 indexed sender,
-        address recipient,
+        address indexed recipient,
         uint256 amount,
+        uint32 originDomain,
+        bytes32 remoteSender,
         uint256 expiry
     );
-    event MessageConsumed(
-        bytes32 indexed messageId,
-        address indexed recipient,
-        uint256 amount
-    );
-    event PendingMintTtlSet(uint256 ttl);
+    event MessageConsumed(bytes32 indexed messageId, address indexed recipient, uint256 amount);
+    /// @dev Dev-only: no mailbox dispatch; production uses monorepo HypERC20 `transferRemote`.
+    event TransferRemoteDev(uint32 indexed destination, bytes32 indexed recipient, uint256 amount, bytes32 messageId);
 
-    constructor(
-        uint8 __decimals,
-        uint256 _scaleNumerator,
-        uint256 _scaleDenominator,
-        address _mailbox
-    ) HypERC20(__decimals, _scaleNumerator, _scaleDenominator, _mailbox) {}
-
-    /**
-     * @notice Keep initialize signature compatible with warp deploy, but disallow
-     *         direct initial minting (Option 2 delayed-mint policy).
-     * @dev Proxy storage does not inherit `pendingMintTtl = 1 days` from the implementation
-     *      bytecode initializer — must set TTL here or `pendingMintTtl` stays 0 (instant expiry).
-     */
-    function initialize(
-        uint256,
-        string memory _name,
-        string memory _symbol,
-        address _hook,
-        address _interchainSecurityModule,
-        address _owner
-    ) public override initializer {
-        __ERC20_init(_name, _symbol);
-        _MailboxClient_initialize(_hook, _interchainSecurityModule, _owner);
-        pendingMintTtl = 1 days;
+    constructor(string memory name_, string memory symbol_, address mailbox_, address initialOwner) ERC20(name_, symbol_) Ownable() {
+        require(mailbox_ != address(0), "MAILBOX_ZERO");
+        require(initialOwner != address(0), "OWNER_ZERO");
+        _transferOwnership(initialOwner);
+        mailbox = mailbox_;
     }
 
-    function setPendingMintTtl(uint256 _ttl) external onlyOwner {
-        require(_ttl > 0, "ttl=0");
-        pendingMintTtl = _ttl;
-        emit PendingMintTtlSet(_ttl);
+    function setSmartWalletFactory(address factory) external onlyOwner {
+        require(factory != address(0), "FACTORY_ZERO");
+        smartWalletFactory = IDravanaSmartWalletFactory(factory);
+        emit SmartWalletFactorySet(factory);
     }
 
-    function setSmartWalletFactory(address _factory) external onlyOwner {
-        require(_factory != address(0), "FACTORY_ZERO");
-        smartWalletFactory = IDravanaSmartWalletFactory(_factory);
+    function setDomain(uint32 domain, uint256 chainId) external onlyOwner {
+        require(chainId != 0, "CHAIN_ZERO");
+        domainToChain[domain] = chainId;
     }
 
-    /// @notice Map Hyperlane destination domain to EVM chain id (optional SmartWallet domain checks).
-    function setDomain(uint32 domain, uint256 evmChainId) external onlyOwner {
-        require(evmChainId != 0, "CHAIN_ZERO");
-        domainToChain[domain] = evmChainId;
+    function setPendingMintTtl(uint256 ttl) external onlyOwner {
+        require(ttl > 0, "ttl=0");
+        pendingMintTtl = ttl;
+        emit PendingMintTtlSet(ttl);
     }
 
     /**
-     * @dev Store-only receive path. No auto-mint.
-     * Message format remains TokenMessage (recipient, amount).
+     * @dev Mailbox entry — store only. Body MUST be Hyperlane TokenMessage (64 bytes).
+     *      messageId = keccak256(abi.encode(origin, sender, body)) — same as Hyperlane fork contract.
      */
-    function _handle(
-        uint32 _origin,
-        bytes32 _sender,
-        bytes calldata _message
-    ) internal override {
-        address recipient = _message.recipient().bytes32ToAddress();
-        uint256 amount = _inboundAmount(_message.amount());
-        bytes32 messageId = keccak256(abi.encode(_origin, _sender, _message));
+    function handle(uint32 origin, bytes32 sender, bytes calldata body) external payable {
+        require(msg.sender == mailbox, "ONLY_MAILBOX");
+        require(body.length == 64, "BAD_TOKEN_MSG");
 
-        PendingMessage storage pending = messages[messageId];
-        require(pending.recipient == address(0), "message exists");
+        address recipient = body.recipient().bytes32ToAddress();
+        uint256 rawAmount = body.amount();
+        require(recipient != address(0), "INVALID_RECIPIENT");
+        require(rawAmount > 0, "INVALID_AMOUNT");
 
         require(address(smartWalletFactory) != address(0), "FACTORY_UNSET");
-        require(smartWalletFactory.isDeployedAccount(recipient), "RECIPIENT_NOT_SW");
+        // Counterfactual AA wallets have no code until UserOp/init; factory gates deployed OR pre-registered CREATE2.
+        require(smartWalletFactory.isAllowedInboundWarpRecipient(recipient), "RECIPIENT_NOT_SW");
+
+        bytes32 messageId = keccak256(abi.encode(origin, sender, body));
+        require(messages[messageId].recipient == address(0), "MESSAGE_EXISTS");
 
         uint256 expiry = block.timestamp + pendingMintTtl;
         messages[messageId] = PendingMessage({
             recipient: recipient,
-            amount: amount,
-            origin: _origin,
-            sender: _sender,
+            amount: rawAmount,
+            originDomain: origin,
+            remoteSender: sender,
             expiry: expiry,
             consumed: false
         });
 
-        emit ReceivedTransferRemote(_origin, _message.recipient(), _message.amount());
-        emit MessageStored(messageId, _origin, _sender, recipient, amount, expiry);
+        emit MessageStored(messageId, recipient, rawAmount, origin, sender, expiry);
     }
 
-    function consumeAndMint(bytes32 messageId) external {
-        PendingMessage storage pending = messages[messageId];
-        require(pending.recipient != address(0), "message missing");
-        require(!pending.consumed, "already consumed");
-        require(block.timestamp <= pending.expiry, "expired");
-        require(msg.sender == pending.recipient, "invalid recipient");
-        require(pending.amount > 0, "amount=0");
+    function consumeAndMint(bytes32 messageId) external nonReentrant {
+        PendingMessage storage m = messages[messageId];
+        require(m.recipient != address(0), "MESSAGE_NOT_FOUND");
+        require(!m.consumed, "ALREADY_CONSUMED");
+        require(block.timestamp <= m.expiry, "EXPIRED");
+        require(msg.sender == m.recipient, "INVALID_CALLER");
+        require(m.amount > 0, "INVALID_MESSAGE");
         require(address(smartWalletFactory) != address(0), "FACTORY_UNSET");
         require(smartWalletFactory.isDeployedAccount(msg.sender), "ONLY_SMART_WALLET");
 
-        pending.consumed = true;
-        _mint(msg.sender, pending.amount);
-        emit MessageConsumed(messageId, msg.sender, pending.amount);
+        m.consumed = true;
+        _mint(m.recipient, m.amount);
+        emit MessageConsumed(messageId, m.recipient, m.amount);
     }
 
-    /// @notice Whether `caller` may consume `messageId` (view helper for frontends / policy).
+    /**
+     * @notice Dev stub matching Hyperlane TokenRouter API — burns from `msg.sender` (must be SmartWallet).
+     * @dev Production monorepo token dispatches via Mailbox; this only burns for local testing.
+     */
+    function transferRemote(uint32 destination, bytes32 recipient, uint256 amount) external payable returns (bytes32 messageId) {
+        require(amount > 0, "AMOUNT_ZERO");
+        require(recipient != bytes32(0), "RECIPIENT_ZERO");
+        _burn(msg.sender, amount);
+        messageId = keccak256(abi.encode(destination, recipient, amount, msg.sender, block.number));
+        emit TransferRemoteDev(destination, recipient, amount, messageId);
+        return messageId;
+    }
+
     function isMessageConsumable(bytes32 messageId, address caller) external view returns (bool) {
-        PendingMessage storage pending = messages[messageId];
+        PendingMessage storage m = messages[messageId];
         if (address(smartWalletFactory) == address(0)) return false;
-        if (pending.recipient == address(0) || pending.consumed) return false;
-        if (block.timestamp > pending.expiry) return false;
-        if (caller != pending.recipient) return false;
+        if (m.recipient == address(0) || m.consumed) return false;
+        if (block.timestamp > m.expiry) return false;
+        if (caller != m.recipient) return false;
         if (!smartWalletFactory.isDeployedAccount(caller)) return false;
         return true;
-    }
-
-    /**
-     * @dev Prevent all implicit mint paths from TokenRouter internals.
-     *      Minting is only allowed via `consumeAndMint`.
-     */
-    function _transferTo(address, uint256) internal pure override {
-        revert("use consumeAndMint");
-    }
-
-    /**
-     * @dev Disable token-fee minting in delayed-mint mode.
-     */
-    function _transferFee(address, uint256 _amount) internal pure override {
-        require(_amount == 0, "fee unsupported");
     }
 }

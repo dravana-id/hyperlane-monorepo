@@ -1,0 +1,10 @@
+# Fresh warp route deploy config (USDC/dravana-polygon)
+# Polygon: native USDC collateral; Dravana: DravanaSynthetic (solidity/contracts/token/DravanaSynthetic.sol)
+polygon:
+  type: collateral
+  token: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"
+  owner: "0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f"
+dravana:
+  type: dravanaSynthetic
+  isNft: false
+  owner: "0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f"

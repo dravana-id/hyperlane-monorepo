@@ -1,0 +1,580 @@
+ubuntu@ip-172-31-28-152:~/hyperlane-monorepo/typescript/cli$
+node dist/cli.js warp check \
+  --warp-route-id USDC/dravana-polygon \
+  --registry file:///home/ubuntu/.hyperlane \
+  --yes
+Hyperlane CLI
+{"level":30,"time":1776435617137,"pid":103792,"msg":"Your CLI version: 29.1.0, latest version: 32.0.1"}
+Hyperlane Warp Check
+____________________
+0x39237Ed57Aa6671224047085E49f68b5a224CA76{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+Error fetching contract verification status for 0x2b818005b257852d6e0271166504c94EC311A535 on chain polygon: Error: Error while performing request to Etherscan like API at api.etherscan.io: NOTOK Invalid API Key (#err2)
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+Error fetching contract verification status for 0x9d5CCB0aE0b7117909fD7a375bb8960A040329Ae on chain polygon: Error: Error while performing request to Etherscan like API at api.etherscan.io: NOTOK Invalid API Key (#err2)
+Error fetching contract verification status for 0x16cc4fb7d96cbA9d22b87339b13c82c3f0C8b8a4 on chain polygon: Error: Error while performing request to Etherscan like API at api.etherscan.io: NOTOK Invalid API Key (#err2)
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:35 GMT","content-length":"221","x-envoy-upstream-service-time":"28","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":72,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xaffed0e0","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:36 GMT","content-length":"221","x-envoy-upstream-service-time":"48","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xaffed0e0\\"},\\"latest\\"],\\"id\\":73,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xaffed0e0","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:37 GMT","content-length":"221","x-envoy-upstream-service-time":"36","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xaffed0e0\\"},\\"latest\\"],\\"id\\":75,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:37 GMT","content-length":"221","x-envoy-upstream-service-time":"21","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":74,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xaffed0e0","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:38 GMT","content-length":"221","x-envoy-upstream-service-time":"11","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xaffed0e0\\"},\\"latest\\"],\\"id\\":76,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:39 GMT","content-length":"221","x-envoy-upstream-service-time":"26","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":77,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:43 GMT","content-length":"221","x-envoy-upstream-service-time":"4","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":79,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:43 GMT","content-length":"221","x-envoy-upstream-service-time":"5","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":81,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:44 GMT","content-length":"221","x-envoy-upstream-service-time":"2","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":84,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:44 GMT","content-length":"221","x-envoy-upstream-service-time":"37","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":83,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xaffed0e0","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:45 GMT","content-length":"221","x-envoy-upstream-service-time":"11","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xaffed0e0\\"},\\"latest\\"],\\"id\\":82,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:46 GMT","content-length":"221","x-envoy-upstream-service-time":"19","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":85,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xe75235b8","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:46 GMT","content-length":"221","x-envoy-upstream-service-time":"45","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xe75235b8\\"},\\"latest\\"],\\"id\\":86,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xaffed0e0","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:46 GMT","content-length":"221","x-envoy-upstream-service-time":"30","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xaffed0e0\\"},\\"latest\\"],\\"id\\":87,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xaffed0e0","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:48 GMT","content-length":"221","x-envoy-upstream-service-time":"14","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xaffed0e0\\"},\\"latest\\"],\\"id\\":90,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+{
+  errors: [
+    {
+      code: 'CALL_EXCEPTION',
+      message: 'missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x76ad6ab8e9d4b10B27D949a414E9AA18c665EF9f","data":"0xaffed0e0","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":403,"headers":{"content-type":"application/json","date":"Fri, 17 Apr 2026 14:21:49 GMT","content-length":"221","x-envoy-upstream-service-time":"140","server":"istio-envoy"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"error\\":{\\"code\\":-32000,\\"message\\":\\"Unauthorized: You must authenticate your request with an API key. Create an account on https://www.ankr.com/rpc/ and generate your personal API key for free.\\"},\\"id\\":null}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x76ad6ab8e9d4b10b27d949a414e9aa18c665ef9f\\",\\"data\\":\\"0xaffed0e0\\"},\\"latest\\"],\\"id\\":80,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://polygon-rpc.com"}, code=CALL_EXCEPTION, version=providers/5.8.0)',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    },
+    {
+      code: undefined,
+      message: 'Invalid response from provider',
+      name: 'Error'
+    }
+  ]
+} Unhandled error case in combined provider error handler
+dravana:
+  contractVerificationStatus:
+    proxy:
+      EXPECTED: verified
+      ACTUAL: unverified
+    implementation:
+      EXPECTED: verified
+      ACTUAL: unverified
+    proxyAdmin:
+      EXPECTED: verified
+      ACTUAL: unverified
+  type:
+    EXPECTED: dravanaSynthetic
+    ACTUAL: synthetic
+polygon:
+  contractVerificationStatus:
+    proxy:
+      EXPECTED: verified
+      ACTUAL: error
+    implementation:
+      EXPECTED: verified
+      ACTUAL: error
+    proxyAdmin:
+      EXPECTED: verified
+      ACTUAL: error
+  type: collateral
+

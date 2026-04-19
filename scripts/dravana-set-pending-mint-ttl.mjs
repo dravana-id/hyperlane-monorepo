@@ -1,5 +1,5 @@
 /**
- * Owner-only: DravanaHypERC20.setPendingMintTtl(seconds) on the warp **proxy**.
+ * Owner-only: DravanaSynthetic.setPendingMintTtl(seconds) on the warp **proxy**.
  *
  * One-time: npm install in scripts/dravana-consume-pkg (same ethers bundle as consume script).
  *

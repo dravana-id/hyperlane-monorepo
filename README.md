@@ -178,7 +178,7 @@ These commands use the **`hyperlane warp`** subcommands (current CLI structure).
    ```
 
    - Select the chains, token **type** per chain (`collateral`, `synthetic`, `native`, etc.).
-   - **Dravana fork:** for custom `DravanaHypERC20`, choose token type **`dravanaSynthetic`** when offered—this deploys the Dravana synthetic implementation instead of default `HypERC20`.
+   - **Dravana fork:** for `DravanaSynthetic` (`solidity/contracts/token/DravanaSynthetic.sol`), choose token type **`dravanaSynthetic`** when offered—this deploys the Dravana synthetic implementation instead of default `HypERC20`.
    - If you omit `--out`, the wizard can add the deployment config to your registry (see wizard prompts).
 
 2. **Validate the YAML** before deploying:

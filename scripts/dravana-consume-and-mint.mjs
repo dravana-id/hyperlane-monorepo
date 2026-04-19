@@ -1,5 +1,5 @@
 /**
- * Call DravanaHypERC20.consumeAndMint(messageId) on the warp **proxy** (state lives here).
+ * Call DravanaSynthetic.consumeAndMint(messageId) on the warp **proxy** (state lives here).
  *
  * Do NOT send txs to the implementation address — pending `messages` mapping is on the proxy.
  *

@@ -4,6 +4,7 @@ pragma solidity >=0.8.0;
 import {TypeCasts} from "../libs/TypeCasts.sol";
 import {HypERC20} from "./HypERC20.sol";
 import {TokenMessage} from "./libs/TokenMessage.sol";
+import {TokenRouter} from "./libs/TokenRouter.sol";
 
 interface IDravanaSmartWalletFactory {
     function isDeployedAccount(address account) external view returns (bool);
@@ -15,7 +16,7 @@ interface IDravanaSmartWalletFactory {
  * @title DravanaSynthetic
  * @notice Synthetic warp ERC20 for production: outbound uses Hyperlane `transferRemote` (`TokenRouter`),
  *         inbound overrides `_handle` to store pending mint (Option 2), then recipients call `consumeAndMint`.
- * @dev Drop-in evolution from `DravanaHypERC20.sol`:
+ * @dev Extends `HypERC20` with Dravana-specific inbound handling:
  *      - Uses inherited `Router.handle` → `_handle` (remote router enrollment enforced).
  *      - Pending row key: `keccak256(abi.encode(origin, sender, body))` matching backend `computePendingMintMessageId`.
  *      - Supports legacy 64-byte token bodies or 96-byte bodies with trailing metadata (salt), matching `TokenMessage` layout.

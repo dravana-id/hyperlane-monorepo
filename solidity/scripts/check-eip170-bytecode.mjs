@@ -11,7 +11,7 @@ const EIP170_MAX = 24576;
 const SESSION = '75765a';
 
 const artifactRelPaths = [
-  'artifacts/contracts/token/DravanaHypERC20.sol/DravanaHypERC20.json',
+  'artifacts/contracts/token/DravanaSynthetic.sol/DravanaSynthetic.json',
   'artifacts/contracts/token/HypERC20Collateral.sol/HypERC20Collateral.json',
 ];
 

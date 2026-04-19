@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.8.0;
 
-import {TypeCasts} from "../../libs/TypeCasts.sol";
+import {TypeCasts} from "../libs/TypeCasts.sol";
 import {HypERC20} from "./HypERC20.sol";
 import {TokenMessage} from "./libs/TokenMessage.sol";
 
@@ -91,8 +91,8 @@ contract DravanaSynthetic is HypERC20 {
     }
 
     /**
-     * @inheritdoc TokenRouter
-     * @dev Stores pending mint instead of minting immediately; amount is scaled with `_inboundAmount`.
+     * @dev Override of `TokenRouter._handle`. Stores pending mint instead of minting immediately;
+     *      amount is scaled with `_inboundAmount`.
      */
     function _handle(
         uint32 _origin,

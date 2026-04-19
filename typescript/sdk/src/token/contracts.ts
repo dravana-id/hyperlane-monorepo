@@ -3,7 +3,7 @@ import { ContractFactory } from 'ethers';
 import {
   EverclearEthBridge__factory,
   EverclearTokenBridge__factory,
-  DravanaHypERC20__factory,
+  DravanaSynthetic__factory,
   HypERC20Collateral__factory,
   HypERC20__factory,
   HypERC721Collateral__factory,
@@ -31,7 +31,7 @@ import { DeployableTokenType, TokenType } from './config.js';
 
 export const hypERC20contracts = {
   [TokenType.synthetic]: 'HypERC20',
-  [TokenType.dravanaSynthetic]: 'DravanaHypERC20',
+  [TokenType.dravanaSynthetic]: 'DravanaSynthetic',
   [TokenType.syntheticRebase]: 'HypERC4626',
   [TokenType.syntheticUri]: 'HypERC721',
   [TokenType.collateral]: 'HypERC20Collateral',
@@ -61,7 +61,7 @@ type HypERC20TokenType = Exclude<
 
 export const hypERC20factories = {
   [TokenType.synthetic]: new HypERC20__factory(),
-  [TokenType.dravanaSynthetic]: new DravanaHypERC20__factory(),
+  [TokenType.dravanaSynthetic]: new DravanaSynthetic__factory(),
   [TokenType.collateral]: new HypERC20Collateral__factory(),
   // use V1 here to satisfy type requirements
   [TokenType.collateralCctp]: new TokenBridgeCctpV1__factory(),
